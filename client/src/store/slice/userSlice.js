@@ -6,13 +6,13 @@ const initialState = {
   score: 0,
   token: null,
   email:null,
-  isAdmin: false,
+  role: null,
 };
 
 const loadPlayerFromLocalStorage = () => {
   try {
-    const playerData = localStorage.getItem("player");
-    return playerData ? JSON.parse(playerData) : null;
+    const userData = localStorage.getItem("user");
+    return userData ? JSON.parse(userData) : null;
   } catch (error) {
     console.log("User loading error", error);
     return null;
@@ -21,29 +21,31 @@ const loadPlayerFromLocalStorage = () => {
 
 const storedPlayer = loadPlayerFromLocalStorage() || initialState;
 
-const playerSlice = createSlice({
-  name: "player",
+const userSlice = createSlice({
+  name: "user",
   initialState: storedPlayer,
   reducers: {
-    playerLogin: (state, action) => {
-      const { _id, name, score,email } = action.payload.player;
+    userData: (state, action) => {
+      const { _id, name, score,email,role } = action.payload.user;
       const {token} = action.payload
       state.id = _id;
       state.name = name;
       state.score = score;
       state.token = token;
       state.email = email
+      state.role=role
 
-      const playerData = {
+      const userData = {
         id: _id,
         name,
         score,
         token,
         email,
+        role
       };
 
       try {
-        localStorage.setItem("player", JSON.stringify(playerData));
+        localStorage.setItem("user", JSON.stringify(userData));
       } catch (error) {
         console.log("Error storing user in local storage", error);
       }
@@ -53,13 +55,13 @@ const playerSlice = createSlice({
       state.score += action.payload;
     },
 
-    playerLogout: (state) => {
-      localStorage.removeItem("player");
+    userLogout: (state) => {
+      localStorage.removeItem("user");
       return initialState;
     },
   },
 });
 
-export const { playerLogin, updateScore, playerLogout } = playerSlice.actions;
+export const { userData, updateScore, userLogout } = userSlice.actions;
 
-export default playerSlice.reducer;
+export default userSlice.reducer;

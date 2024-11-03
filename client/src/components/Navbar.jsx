@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { playerLogout } from "../store/slice/playerSlice"; // Adjust path as needed
+import { userLogout } from "../store/slice/userSlice";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export const Navbar = () => {
   const dropdownRef = useRef(null);
 
   // Access player details from Redux store
-  const player = useSelector((state) => state.player);
+  const user = useSelector((state) => state.user);
 
   // State to manage dropdown visibility
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -37,7 +37,7 @@ export const Navbar = () => {
 
   // Logout handler
   const handleLogout = () => {
-    dispatch(playerLogout());
+    dispatch(userLogout());
     navigate("/login");
   };
 
@@ -55,21 +55,29 @@ export const Navbar = () => {
           </div>
 
           <div className="relative" ref={dropdownRef}>
-            {player.token ? (
-  
+            {user.token ? (
               <div className="flex items-center space-x-4">
                 <span
                   onClick={toggleDropdown}
                   className="bg-white text-black font-bold md:text-xl px-3 py-1 rounded-full cursor-pointer text-sm"
                 >
-                  {player.name.charAt(0).toUpperCase()}
+                  {user.role === "admin" ? "Admin" : user.name.charAt(0).toUpperCase()}
                 </span>
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute left-0 top-10 mt-2 w-32 bg-gray text-white font-bold rounded-md shadow-lg ">
+                  <div className="absolute left-0 top-10 mt-2 w-32  text-white font-bold rounded-md shadow-lg ">
+                    {user.role === "player" && ( // Corrected the role check here
+                      <button
+                        className="w-full text-center px-4 py-2 bg-gray rounded-lg"
+                        onClick={() => navigate("/profile")}
+                      >
+                        Profile
+                      </button>
+                    )}
+
                     <button
-                      className="w-full text-center px-4 py-2 hover:bg-gray-100"
+                      className="w-full text-center px-4 py-2 bg-gray rounded-lg "
                       onClick={handleLogout}
                     >
                       Logout

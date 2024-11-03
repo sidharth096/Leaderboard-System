@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import playerReducer from './slice/playerSlice.js'
+import userReducer from './slice/userSlice.js'
 import leaderBoardReducer from './slice/leaderboardSlice.js'
 
 export const store = configureStore({
   reducer: {
-    player: playerReducer,
+    user: userReducer,
     leaderBoard:leaderBoardReducer
   }
 })

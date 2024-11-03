@@ -10,6 +10,10 @@ export const Players = () => {
   // Access the players and loading state from the Redux store
   const leaderBordPlayers = useSelector((state) => state.leaderBoard.players);
   const loading = useSelector((state) => state.leaderBoard.loading);
+  
+  // Access user role from Redux store
+  const user = useSelector((state) => state.user);
+console.log("user",user); 
 
   // Debugging logs
   console.log("Loading:", loading);
@@ -33,7 +37,7 @@ export const Players = () => {
                   Rank
                 </th>
                 <th className="px-6 py-3 border-b text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
-                  id
+                  ID
                 </th>
                 <th className="px-6 py-3 border-b text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                   Name
@@ -47,7 +51,7 @@ export const Players = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="text-center py-4">
+                  <td colSpan="5" className="text-center py-4">
                     Loading players...
                   </td>
                 </tr>
@@ -67,16 +71,23 @@ export const Players = () => {
                       {player.score}
                     </td>
                     <td className="px-6 py-4 border-b text-right">
-                      <button className="bg-indigo-600 text-white py-1 px-3 rounded hover:bg-indigo-800 transition duration-200">
-                        Edit
-                      </button>
+                      
+                      {user.role === 'admin' && ( 
+                        
+                        <button
+                          className=" text-black py-1 px-3 rounded hover:bg-indigo-800 transition duration-200"
+                          onClick={() => navigate(`/profile?id=${player._id}`)} // Navigate to profile with player ID
+                        >
+                          Edit
+                        </button>
+                        
+                      )}
                     </td>
                   </tr>
                 ))
               ) : (
-                // Show message when there are no players
                 <tr>
-                  <td colSpan="4" className="text-center py-4">
+                  <td colSpan="5" className="text-center py-4">
                     No players...
                   </td>
                 </tr>

@@ -25,7 +25,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: storedPlayer,
   reducers: {
-    userData: (state, action) => {
+    setUserData: (state, action) => {
       const { _id, name, score,email,role } = action.payload.user;
       const {token} = action.payload
       state.id = _id;
@@ -43,6 +43,9 @@ const userSlice = createSlice({
         email,
         role
       };
+
+      console.log("....................====///",userData);
+      
 
       try {
         localStorage.setItem("user", JSON.stringify(userData));
@@ -62,6 +65,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { userData, updateScore, userLogout } = userSlice.actions;
+export const { setUserData, updateScore, userLogout } = userSlice.actions;
 
 export default userSlice.reducer;

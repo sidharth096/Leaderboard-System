@@ -76,7 +76,7 @@ console.log("user",user);
                         
                         <button
                           className=" text-black py-1 px-3 rounded hover:bg-indigo-800 transition duration-200"
-                          onClick={() => navigate(`/profile?id=${player._id}`)} // Navigate to profile with player ID
+                          onClick={() => navigate(`/profileByid/${player._id}`)} // Navigate to profile with player ID
                         >
                           Edit
                         </button>

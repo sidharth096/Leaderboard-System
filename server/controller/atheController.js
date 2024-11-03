@@ -34,7 +34,7 @@ export const playerRegister = async (req, res,next) => {
 };
 
 
-export const Login = async (req, res, next) => {
+export const  Login = async (req, res, next) => {
   try {
     console.log(req.body);
     const { email, password } = req.body;

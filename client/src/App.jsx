@@ -15,6 +15,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage/>} />
           <Route path="/profile" element={<Profilepage/>} />
+          <Route path="/profileByid/:id" element={<Profilepage/>} />
           <Route path="*" element={<NoteFoundPage />} />
         </Routes>
       </Router>

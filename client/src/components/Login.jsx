@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userData } from "../store/slice/userSlice";
+import { setUserData } from "../store/slice/userSlice";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -58,7 +58,7 @@ export const Login = () => {
       toast.success("Login successful!");
 
 
-      dispatch(userData(data));
+      dispatch(setUserData(data));
       navigate("/");
     } catch (error) {
       toast.error(error.message || "Something went wrong. Please try again.");

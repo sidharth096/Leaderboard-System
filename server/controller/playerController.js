@@ -62,3 +62,21 @@ export const updateScore = async (req, res, next) => {
   }
 };
 
+export const getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // Fetch the user by ID, excluding the password field
+    const player = await Player.findById(id).select('-password');
+    
+    if (!player) {
+      return res.status(404).json({ error: 'Player not found' });
+    }
+
+    res.status(200).json(player);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+

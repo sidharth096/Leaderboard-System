@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { playerLogin } from "../store/slice/playerSlice";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -10,6 +12,7 @@ export const Login = () => {
   const [errors, setErrors] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,13 +37,16 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/player/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, role }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/player/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, role }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -51,6 +57,8 @@ export const Login = () => {
       console.log("Login successful:", data);
       toast.success("Login successful!");
 
+
+      dispatch(playerLogin(data));
       navigate("/");
     } catch (error) {
       toast.error(error.message || "Something went wrong. Please try again.");
@@ -85,7 +93,6 @@ export const Login = () => {
                   checked={role === "player"}
                   onChange={() => setRole("player")}
                 />
-                {""}
                 Player
               </label>
               <label className="flex items-center">
@@ -97,7 +104,6 @@ export const Login = () => {
                   checked={role === "admin"}
                   onChange={() => setRole("admin")}
                 />
-                {""}
                 Admin
               </label>
             </div>

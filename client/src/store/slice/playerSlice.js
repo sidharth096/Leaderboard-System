@@ -5,6 +5,7 @@ const initialState = {
   name: "",
   score: 0,
   token: null,
+  email:null,
   isAdmin: false,
 };
 
@@ -25,15 +26,24 @@ const playerSlice = createSlice({
   initialState: storedPlayer,
   reducers: {
     playerLogin: (state, action) => {
-      const { id, name, score, token, isAdmin } = action.payload;
-      state.id = id;
+      const { _id, name, score,email } = action.payload.player;
+      const {token} = action.payload
+      state.id = _id;
       state.name = name;
       state.score = score;
       state.token = token;
-      state.isAdmin = isAdmin;
+      state.email = email
+
+      const playerData = {
+        id: _id,
+        name,
+        score,
+        token,
+        email,
+      };
 
       try {
-        localStorage.setItem("player", JSON.stringify(action.payload));
+        localStorage.setItem("player", JSON.stringify(playerData));
       } catch (error) {
         console.log("Error storing user in local storage", error);
       }
